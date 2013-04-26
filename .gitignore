@@ -1,0 +1,7 @@
+*.sw[po]
+Gemfile.lock
+/html
+/garbage
+/tmp
+/temp
+/trash

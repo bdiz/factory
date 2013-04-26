@@ -1,0 +1,92 @@
+Welcome to the Factory API!
+
+=Overview
+
+The Factory mixin provides a robust Factory implementation. Overrides are
+automatically registered upon sub-classing. Manual override and disables are 
+available if auto-registration does not result in the desired factory overrides.
+Manual overrides are available at the class and global granularities. Method arguments
+can be passed in as strings or symbols so that overrides can be set even before classes
+have been defined.
+
+=Usage
+
+==Using the Factory
+
+The Factory module should be included in the classes which you want to provide factory
+overrides. 
+ class ParentClass
+   include Factory
+   def initialize arg=nil
+     @arg = arg
+   end
+ end
+Inheriting from this class will automatically register the sub-class as the override
+of the parent class.
+ class Child1 < ParentClass
+ end
+Sub-classes need not include +Factory+ though doing so should not hurt anything.  
+The +create+ class method is implemeted by the mixin for the parent class and all
+sub-classes. Constructor arguments can be passed similarly through +create+.
+ ParentClass.create('hello') # Returns an object of type Child1
+Subsequent sub-classing updates the factory overrides.
+ class Child2 < Child1
+ end
+
+ ParentClass.create # Returns an object of type Child2
+ Child1.create # Returns an object of type Child2
+ ParentClass.new # Works normally. Returns an object of type ParentClass.
+
+ class Child3 < ParentClass
+ end
+
+ ParentClass.create # Returns an object of type Child3
+ Child1.create # Returns an object of type Child2 since Child3 is not a decendent.
+
+== Manual Factory Overrides
+
+If the resulting factory overrides are not what is desired, they can be manually
+overriden.  
+The methods that are discussed in the section takes arguments which are the class
+constants
+ Factory.global_disable_override Child3
+or as a symbol (strings are also accepted).
+ Factory.global_disable_override :Child3
+This allows overrides to be used even before a class is defined.  
+
+=== Factory Override Disable
+
+Continuing from the above example +ParentClass+ has a factory override of +Child3+
+since it was the last sub-class to inherit from it. If the intention is to have
++Child2+ be the factory override there are several ways this can be accomplished.  
+To disable a class from overriding a particular class either of the following can
+be used.
+ Factory.disable_override ParentClass, Child3
+ ParentClass.create # Returns an object of type Child2
+or,
+ ParentClass.disable_factory_override Child3
+ ParentClass.create # Returns an object of type Child2
+Since the disable is with respect to a specific ancestor, other ancestors are 
+uneffected.  
+
+=== Factory Override Enable
+
+Another way of manually configuring overrides is through enabling an override. This
+can also be used to cancel an existing class specific factory disable override.
+ Factory.enable_override ParentClass, Child3
+ ParentClass.create # Returns an object of type Child3
+The last override enable takes presedence.
+ Factory.enable_override ParentClass, Child2
+ ParentClass.create # Returns an object of type Child2
+or, 
+ ParentClass.enable_override Child2
+ ParentClass.create # Returns an object of type Child2
+Subsequent calls of the disable override methods will cancel the previous enable
+overrides on the same types.  
+
+=== Global Factory Override Methods
+
+To disable a class from overriding any classes use the following, 
+ Factory.global_disable_override Child3
+To cancel the disable override,
+ Factory.remove_global_disable_override Child3
