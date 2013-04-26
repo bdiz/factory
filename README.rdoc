@@ -1,4 +1,4 @@
-Welcome to the Factory API!
+Welcome to the Factory!
 
 =Overview
 
