@@ -7,10 +7,9 @@ Gem::Specification.new do |spec|
   spec.name          = "factory"
   spec.version       = Factory::VERSION
   spec.authors       = ["Ben Delsol"]
-  spec.email         = ["ben.delsol@intel.com"]
-	spec.summary       = "Provides a simple factory module for object construction."
+	spec.summary       = "A mixin implementing the Factory design pattern via Ruby meta-programming."
 	spec.description   = ""
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/bdiz/factory"
 
   orig = $VERBOSE; $VERBOSE = nil
   spec.files         = `git ls-files`.split($/)
@@ -19,13 +18,11 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake", "0.8.7"
   spec.add_development_dependency "rdoc"
 
 	spec.extra_rdoc_files = Dir.glob("doc/*.rdoc")
 	spec.has_rdoc = true
-	spec.rdoc_options += ["--title=TestStats API",
-			"--main=README.rdoc", "-f", "hanna"]
+	spec.rdoc_options += ["--title=Factory API", "--main=README.rdoc"]
 end
 

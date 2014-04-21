@@ -1,11 +1,11 @@
 
-require 'helper'
-require 'test/unit'
+require 'minitest_helper'
 
-class FactoryTest < Test::Unit::TestCase
+describe Factory do
 
-	def test_factory01_pre_class_definition_overrides
+	it "implements the factory design pattern with override printing for debug" do
 
+    # Pre class definition overrides
 		assert_equal C3, Base.create.class
 		assert_equal C3, Factory[Base]
 		assert_equal C3, Base.factory_override
@@ -14,10 +14,8 @@ class FactoryTest < Test::Unit::TestCase
 		assert_equal C2, Factory[C2]
 		assert_equal C2, C2.factory_override
 
-	end
 
-	def test_factory02_check_inherited_overrides
-
+    # Check inherited overrides
 		assert_equal C3, C1.create.class
 		assert_equal C3, Factory[C1]
 		assert_equal C3, C1.factory_override
@@ -29,9 +27,8 @@ class FactoryTest < Test::Unit::TestCase
 		assert_equal Array2, Array.create.class
 		assert_equal Array2, Factory[Array]
 
-	end
 
-	def test_factory03_enable_disable_factory_overrides
+    # Enable disable factory overrides
 		Factory.reset_overrides
 
 		# def enable_factory_override overriding_class
@@ -104,9 +101,8 @@ class FactoryTest < Test::Unit::TestCase
 		assert_equal Array2, Array.create.class
 		assert_equal Array2, Factory[Array]
 
-	end
 
-	def test_factory05_global_disable_override_and_remove_global_disable_override
+    # Global disable override and remove global disable override
 		Factory.reset_overrides
 
 		Factory.global_disable_override :C4
@@ -152,17 +148,15 @@ class FactoryTest < Test::Unit::TestCase
 		assert_equal C4, Factory[C4]
 		assert_equal C4, C4.factory_override
 
-	end
 
-	def test_factory06_create_args
+    # Create Args
 		Factory.reset_overrides
 		o = C1.create('hello')
 		assert_equal C5, o.class
 		assert_equal 'hello', o.arg
-	end
 
-	def test_factory07_print_overrides
 
+    # Print Overrides
 		Factory.reset_overrides
 
 		# One of each type of instance variable set

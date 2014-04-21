@@ -1,7 +1,7 @@
-
-require 'rubygems'
-require 'bundler'
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'factory'
+require 'minitest/autorun'
+require 'minitest/spec'
 
 Factory.enable_override :Base, :C3
 Factory.global_disable_override :C4
